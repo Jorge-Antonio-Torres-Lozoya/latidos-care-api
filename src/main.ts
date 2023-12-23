@@ -14,6 +14,7 @@ async function bootstrap() {
       'https://latidoscare.com/',
       'https://www.latidoscare.com/',
       'https://www.latidoscare.com',
+      'https://latidos-care-app-production.up.railway.app',
     ],
     credentials: true,
   });
