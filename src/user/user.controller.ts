@@ -108,11 +108,11 @@ export class UserController {
       <div style="width:100%; background:rgb(248, 247, 244); position:relative; padding-bottom:40px"></div>
           <div style="position:relative; margin:auto; width:600px; background:white; padding:20px">
             <center>
-              <h3 style="font-weight:100; color:#000000; text-align:center;">Bievenido a Latidos Care!</h3>
+              <h3 style="font-weight:100; color:#000000; text-align:center;"> Bievenido a Latidos Care!</h3>
               <hr style="border:1px solid #ccc; width:80%; margin:5px auto; display:block;">
               <br>
               <p>Haga click en el siguiente enlace para verificar su cuenta:</p>
-              <a href="https://latidoscare.com/verification?token=${verificationCode}"> https://latidoscare.com/verification </a>
+              <a href="https://latidos-care-app-production.up.railway.app/verification?token=${verificationCode}"> https://latidoscare.com/verification </a>
             </center>
           </div>
         </div>
@@ -158,10 +158,9 @@ export class UserController {
 
   //@Serialize(UserDto)
   @UseGuards(JwtUserGuard)
-  @Put('/:id/verification-token')
+  @Get('/:id/generate-verification-token')
   async generateUserVerificationToken(
     @Param('id') userId: string,
-    @Body() body: any,
   ): Promise<VerificationToken> {
     const verificationToken = Math.floor(
       100000 + Math.random() * 900000,
@@ -215,11 +214,8 @@ export class UserController {
 
   @Serialize(UserDto)
   @UseGuards(JwtUserGuard)
-  @Put('/register-data/:id')
-  async updateRegisterDataUser(
-    @Param('id') userId: string,
-    @Body() body: any,
-  ): Promise<User> {
+  @Get('/register-data/:id')
+  async updateRegisterDataUser(@Param('id') userId: string): Promise<User> {
     const user = await this.userService.updateRegisterData(parseInt(userId));
     return user;
   }
@@ -249,7 +245,7 @@ export class UserController {
               <hr style="border:1px solid #ccc; width:80%; margin:5px auto; display:block;">
               <br>
               <p>Haga click en el siguiente enlace para recuperar su contraseña:</p>
-              <a href="https://latidoscare.com/recover-password-user/${user.userId.toString()}?token=${resetPasswordToken}"> https://latidoscare.com/recover-password-user </a>
+              <a href="https://latidos-care-app-production.up.railway.app/recover-password-user/${user.userId.toString()}?token=${resetPasswordToken}"> https://latidoscare.com/recover-password-user </a>
               <br>
               <p>Este enlace sólo será válido por 30 minutos</p>
             </center>
