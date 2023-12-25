@@ -161,9 +161,16 @@ export class UserService {
     if (!updatedUser) {
       throw new NotFoundException('La cuenta no existe.');
     }
+    console.log(
+      'updatedUser.verificationTokenUser',
+      updatedUser.verificationTokenUser,
+    );
+    console.log('token', token);
     if (updatedUser.verificationTokenUser === token) {
+      console.log('validado');
       return true;
     } else {
+      console.log('no validado');
       return false;
     }
   }
