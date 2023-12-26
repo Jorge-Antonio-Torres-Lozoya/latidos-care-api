@@ -23,7 +23,7 @@ export class Admin {
   password: string;
 
   @Column({ nullable: true })
-  phoneNumber: number;
+  phoneNumber: string;
 
   @CreateDateColumn()
   createdAt: Date;

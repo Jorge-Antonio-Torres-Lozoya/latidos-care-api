@@ -14,7 +14,7 @@ export class UserDto {
   email: string;
 
   @Expose()
-  phoneNumber: number;
+  phoneNumber: string;
 
   @Expose()
   dni: string;
@@ -26,7 +26,7 @@ export class UserDto {
   tutorLastName: string;
 
   @Expose()
-  tutorPhoneNumber: number;
+  tutorPhoneNumber: string;
 
   @Expose()
   createdAt: Date;

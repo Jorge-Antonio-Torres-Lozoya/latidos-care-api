@@ -56,7 +56,7 @@ export class UserService {
   createUser(
     firstName: string,
     lastName: string,
-    phoneNumber: number,
+    phoneNumber: string,
     email: string,
     password: string,
     verificationCode: number,
@@ -82,7 +82,7 @@ export class UserService {
   async signupUser(
     firstName: string,
     lastName: string,
-    phoneNumber: number,
+    phoneNumber: string,
     email: string,
     password: string,
     verificationCode: number,

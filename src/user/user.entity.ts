@@ -30,7 +30,7 @@ export class User {
   password: string;
 
   @Column()
-  phoneNumber: number;
+  phoneNumber: string;
 
   @Column({ nullable: true })
   dni: string;
@@ -42,7 +42,7 @@ export class User {
   tutorLastName: string;
 
   @Column({ nullable: true })
-  tutorPhoneNumber: number;
+  tutorPhoneNumber: string;
 
   @CreateDateColumn()
   createdAt: Date;

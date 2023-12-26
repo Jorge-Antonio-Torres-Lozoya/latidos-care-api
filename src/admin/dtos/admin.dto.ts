@@ -14,7 +14,7 @@ export class AdminDto {
   email: string;
 
   @Expose()
-  phoneNumber: number;
+  phoneNumber: string;
 
   @Expose()
   createdAt: Date;

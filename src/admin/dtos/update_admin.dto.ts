@@ -1,4 +1,4 @@
-import { IsEmail, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsOptional, IsString } from 'class-validator';
 
 export class UpdateAdminDto {
   @IsOptional()
@@ -14,6 +14,6 @@ export class UpdateAdminDto {
   email: string;
 
   @IsOptional()
-  @IsNumber()
-  phoneNumber: number;
+  @IsString()
+  phoneNumber: string;
 }
