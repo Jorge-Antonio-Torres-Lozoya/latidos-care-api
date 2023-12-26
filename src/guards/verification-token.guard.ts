@@ -14,6 +14,8 @@ export class VerificationTokenGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const token: string = request.query.token; // Assuming the token is in query parameters
     const userId: string = request.param.id; // Assuming the user id is in the URL as a parameter
+    console.log('userId', userId);
+    console.log('token', token);
 
     if (!token) {
       throw new UnauthorizedException(

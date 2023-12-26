@@ -157,6 +157,8 @@ export class UserService {
   }
 
   async validateToken(userId: number, token: string): Promise<boolean> {
+    console.log('userId', userId);
+    console.log('typeof userId', typeof userId);
     const updatedUser = await this.repo.findOne({ where: { userId } });
     if (!updatedUser) {
       throw new NotFoundException('La cuenta no existe.');

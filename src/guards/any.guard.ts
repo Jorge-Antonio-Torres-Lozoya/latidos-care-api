@@ -16,23 +16,25 @@ export class AnyAuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    let jwtGuardResult: boolean | Observable<boolean> = false;
     try {
-      jwtGuardResult = await this.jwtUserGuard.canActivate(context);
+      const jwtGuardResult: boolean | Observable<boolean> =
+        await this.jwtUserGuard.canActivate(context);
+
+      if (jwtGuardResult === true) {
+        return true;
+      }
+
+      const verificationGuardResult: boolean | Observable<boolean> =
+        await this.verificationTokenGuard.canActivate(context);
+
+      if (verificationGuardResult === true) {
+        return true;
+      }
     } catch (e) {
-      console.error('Error in JWT Guard:', e);
+      console.error('Error in guards:', e);
+      // Optionally handle specific errors or rethrow if necessary
     }
 
-    if (jwtGuardResult) {
-      return true; // jwtUserGuard passed, no need to check the next guard
-    }
-
-    try {
-      return await this.verificationTokenGuard.canActivate(context);
-    } catch (e) {
-      console.error('Error in Verification Token Guard:', e);
-      // verification token guard also failed
-      throw new UnauthorizedException('You are not authorized');
-    }
+    throw new UnauthorizedException('No esta autorizado');
   }
 }
