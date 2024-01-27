@@ -16,5 +16,6 @@ import { MedicationSickness } from './medication-sickness.entity';
   ],
   controllers: [MedicationSicknessController],
   providers: [MedicationSicknessService],
+  exports: [MedicationSicknessService],
 })
 export class MedicationSicknessModule {}

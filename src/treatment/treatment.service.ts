@@ -5,36 +5,37 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Treatment } from './treatment.entity';
-import { Repository } from 'typeorm';
-import { Medication } from '../medication/medication.entity';
+import { Between, Repository } from 'typeorm';
 import { CreateTreatmentDto } from './dtos/create-treatment.dto';
+import { MedicationSicknessService } from '../medication-sickness/medication-sickness.service';
 
 @Injectable()
 export class TreatmentService {
   constructor(
     @InjectRepository(Treatment) private repo: Repository<Treatment>,
-    @InjectRepository(Medication)
-    private repoMedication: Repository<Medication>,
+    private medicationSicknessService: MedicationSicknessService,
   ) {}
 
   async getAll(): Promise<Treatment[]> {
-    const treatments = await this.repo.find({
+    return await this.repo.find({
       relations: {
-        medication: {
+        medicationSickness: {
+          medication: true,
           user: true,
+          userSickness: { sickness: true },
         },
       },
     });
-
-    return treatments;
   }
 
   async getById(treatmentId: number): Promise<Treatment> {
     const treatment = await this.repo.findOne({
       where: { treatmentId },
       relations: {
-        medication: {
+        medicationSickness: {
+          medication: true,
           user: true,
+          userSickness: { sickness: true },
         },
       },
     });
@@ -47,24 +48,16 @@ export class TreatmentService {
   }
 
   async getByMedication(medicationId: number): Promise<Treatment[]> {
-    const medication = await this.repoMedication.findOne({
-      where: { medicationId },
-    });
-
-    if (!medication) {
-      throw new BadRequestException('La medicina no fue encontrada');
-    }
-
-    const treatments = await this.repo.find({
-      where: { medication: { medicationId } },
+    return await this.repo.find({
+      where: { medicationSickness: { medication: { medicationId } } },
       relations: {
-        medication: {
+        medicationSickness: {
+          medication: true,
           user: true,
+          userSickness: { sickness: true },
         },
       },
     });
-
-    return treatments;
   }
 
   async getTreatmentsBetweenDates(
@@ -81,41 +74,51 @@ export class TreatmentService {
       .createQueryBuilder('treatment')
       .where('treatment.createdAt >= :startDate', { startDate })
       .andWhere('treatment.createdAt <= :endDate', { endDate })
-      .andWhere(`treatment.medicationMedicationId = :medicationId`, {
-        medicationId,
-      })
+      .andWhere(
+        `treatment.medicationSickness.medication.medicationId = :medicationId`,
+        {
+          medicationId,
+        },
+      )
       .getMany();
   }
 
-  async create(createDto: CreateTreatmentDto): Promise<Treatment> {
-    const medication = await this.repoMedication.findOne({
-      where: { medicationId: createDto.medicationId },
-    });
-
-    if (!medication) {
-      throw new BadRequestException('La medicina no fue encontrada');
+  async newGetTreatmentsBetweenDates(
+    medicationId: number,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<Treatment[]> {
+    if (!medicationId) {
+      throw new BadRequestException(
+        'No selecionó una medicina, debe selecionar una medicina.',
+      );
     }
+    return this.repo.find({
+      where: {
+        medicationSickness: { medication: { medicationId } },
+        createdAt: Between(startDate, endDate),
+      },
+      relations: {
+        medicationSickness: {
+          medication: true,
+          user: true,
+          userSickness: { sickness: true },
+        },
+      },
+    });
+  }
 
+  async create(createDto: CreateTreatmentDto): Promise<Treatment> {
+    const medicationSickness = await this.medicationSicknessService.getById(
+      createDto.medicationSicknessId,
+    );
     const treatment = this.repo.create({
       taken: createDto.taken,
-      medication,
+      medicationSickness,
     });
 
     await this.repo.save(treatment);
 
-    const foundTreatment = await this.repo.findOne({
-      where: { treatmentId: treatment.treatmentId },
-      relations: {
-        medication: {
-          user: true,
-        },
-      },
-    });
-
-    if (!foundTreatment) {
-      throw new NotFoundException('El tratamiento no fue encontrado');
-    }
-
-    return foundTreatment;
+    return await this.getById(treatment.treatmentId);
   }
 }

@@ -8,7 +8,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { TreatmentService } from './treatment.service';
-import { JwtUserGuard } from '../user/user-auth/user-guard/user.jwt.guard';
 import { Treatment } from './treatment.entity';
 import { CreateTreatmentDto } from './dtos/create-treatment.dto';
 //import { client } from '../main';
@@ -29,29 +28,31 @@ export class TreatmentController {
   ) {
     const startDate = new Date(startDateString);
     const endDate = new Date(endDateString);
-    return await this.treatmentService.getTreatmentsBetweenDates(
+    return await this.treatmentService.newGetTreatmentsBetweenDates(
       parseInt(medicationId),
       startDate,
       endDate,
     );
   }
 
-  @UseGuards(JwtUserGuard)
+  @UseGuards(AnyQueryAuthGuard)
+  @Serialize(TreatmentDto)
   @Get()
   async findAllTreatments(): Promise<Treatment[]> {
-    const treatments = this.treatmentService.getAll();
-    return treatments;
+    return await this.treatmentService.getAll();
   }
 
-  @UseGuards(JwtUserGuard)
+  @UseGuards(AnyQueryAuthGuard)
+  @Serialize(TreatmentDto)
   @Get('/:id')
   async findTreatmentById(
     @Param('id') treatmentId: string,
   ): Promise<Treatment> {
-    const treatment = this.treatmentService.getById(parseInt(treatmentId));
-    return treatment;
+    return await this.treatmentService.getById(parseInt(treatmentId));
   }
 
+  @UseGuards(AnyQueryAuthGuard)
+  @Serialize(TreatmentDto)
   @Post()
   async createTreatment(@Body() body: CreateTreatmentDto): Promise<Treatment> {
     const treatment = await this.treatmentService.create(body);
@@ -71,16 +72,12 @@ export class TreatmentController {
     return treatment;
   }
 
-  @UseGuards(JwtUserGuard)
-  //@Serialize(TreatmentDto)
+  @UseGuards(AnyQueryAuthGuard)
+  @Serialize(TreatmentDto)
   @Get('by-medication')
   async findTreatmentByMedication(
     @Query('medicationId') medicationId: string,
   ): Promise<Treatment[]> {
-    const treatments = await this.treatmentService.getByMedication(
-      parseInt(medicationId),
-    );
-
-    return treatments;
+    return await this.treatmentService.getByMedication(parseInt(medicationId));
   }
 }
