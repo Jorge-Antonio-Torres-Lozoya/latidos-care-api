@@ -14,6 +14,10 @@ import { TrackingValueModule } from './tracking-value/tracking-value.module';
 import { SicknessModule } from './sickness/sickness.module';
 import { AllergyModule } from './allergy/allergy.module';
 import { SendgridService } from 'sendgrid.service';
+import { UserTrackingValueModule } from './user-tracking-value/user-tracking-value.module';
+import { UserSicknessModule } from './user-sickness/user-sickness.module';
+import { MedicationSicknessModule } from './medication-sickness/medication-sickness.module';
+import { UserAllergyModule } from './user-allergy/user-allergy.module';
 
 @Module({
   imports: [
@@ -40,6 +44,10 @@ import { SendgridService } from 'sendgrid.service';
     CurrentValueModule,
     SicknessModule,
     AllergyModule,
+    UserTrackingValueModule,
+    UserSicknessModule,
+    MedicationSicknessModule,
+    UserAllergyModule,
   ],
   controllers: [AppController],
   providers: [

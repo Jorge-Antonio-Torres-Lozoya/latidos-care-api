@@ -5,9 +5,7 @@ import {
   ManyToOne,
   CreateDateColumn,
 } from 'typeorm';
-
-import { User } from '../user/user.entity';
-import { TrackingValue } from '../tracking-value/tracking-value.entity';
+import { UserTrackingValue } from '../user-tracking-value/user-tracking-value.entity';
 
 @Entity()
 export class CurrentValue {
@@ -20,17 +18,12 @@ export class CurrentValue {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => User, (user) => user.currentValues, {
-    onDelete: 'CASCADE',
-  })
-  user: User;
-
   @ManyToOne(
-    () => TrackingValue,
-    (trackingValue) => trackingValue.currentValues,
+    () => UserTrackingValue,
+    (userTrackingValue) => userTrackingValue.currentValues,
     {
       onDelete: 'CASCADE',
     },
   )
-  trackingValue: TrackingValue;
+  userTrackingValue: UserTrackingValue;
 }

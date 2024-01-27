@@ -5,8 +5,7 @@ import {
   ManyToOne,
   CreateDateColumn,
 } from 'typeorm';
-
-import { Medication } from '../medication/medication.entity';
+import { MedicationSickness } from '../medication-sickness/medication-sickness.entity';
 
 @Entity()
 export class Treatment {
@@ -19,8 +18,12 @@ export class Treatment {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => Medication, (medication) => medication.treatments, {
-    onDelete: 'CASCADE',
-  })
-  medication: Medication;
+  @ManyToOne(
+    () => MedicationSickness,
+    (medicationSickness) => medicationSickness.treatments,
+    {
+      onDelete: 'CASCADE',
+    },
+  )
+  medicationSickness: MedicationSickness;
 }

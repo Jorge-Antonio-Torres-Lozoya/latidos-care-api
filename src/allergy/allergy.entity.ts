@@ -1,4 +1,3 @@
-import { User } from '../user/user.entity';
 import {
   Entity,
   Column,
@@ -6,6 +5,7 @@ import {
   CreateDateColumn,
   ManyToOne,
 } from 'typeorm';
+import { UserAllergy } from '../user-allergy/user-allergy.entity';
 
 @Entity()
 export class Allergy {
@@ -18,8 +18,8 @@ export class Allergy {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => User, (user) => user.allergies, {
+  @ManyToOne(() => UserAllergy, (userAllergy) => userAllergy.allergy, {
     onDelete: 'CASCADE',
   })
-  user: User;
+  userAllergies: UserAllergy;
 }

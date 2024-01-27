@@ -1,13 +1,11 @@
-import { User } from '../user/user.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  OneToMany,
   CreateDateColumn,
-  ManyToOne,
+  OneToMany,
 } from 'typeorm';
-import { CurrentValue } from '../current-value/current-value.entity';
+import { UserTrackingValue } from '../user-tracking-value/user-tracking-value.entity';
 
 @Entity()
 export class TrackingValue {
@@ -44,14 +42,13 @@ export class TrackingValue {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => User, (user) => user.trackingValues, {
-    onDelete: 'CASCADE',
-  })
-  user: User;
-
-  @OneToMany(() => CurrentValue, (currentValue) => currentValue.trackingValue, {
-    cascade: true,
-    onDelete: 'SET NULL',
-  })
-  currentValues: CurrentValue[];
+  @OneToMany(
+    () => UserTrackingValue,
+    (userTrackingValue) => userTrackingValue.trackingValue,
+    {
+      cascade: true,
+      onDelete: 'SET NULL',
+    },
+  )
+  userTrackingValues: UserTrackingValue[];
 }

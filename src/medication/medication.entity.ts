@@ -3,13 +3,10 @@ import {
   Column,
   PrimaryGeneratedColumn,
   OneToMany,
-  ManyToOne,
   CreateDateColumn,
 } from 'typeorm';
 
-import { Treatment } from '../treatment/treatment.entity';
-import { User } from '../user/user.entity';
-import { Sickness } from '../sickness/sickness.entity';
+import { MedicationSickness } from '../medication-sickness/medication-sickness.entity';
 
 @Entity()
 export class Medication {
@@ -25,19 +22,13 @@ export class Medication {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => User, (user) => user.medications, {
-    onDelete: 'CASCADE',
-  })
-  user: User;
-
-  @ManyToOne(() => Sickness, (sickness) => sickness.medications, {
-    onDelete: 'CASCADE',
-  })
-  sickness: Sickness;
-
-  @OneToMany(() => Treatment, (treatment) => treatment.medication, {
-    cascade: true,
-    onDelete: 'SET NULL',
-  })
-  treatments: Treatment[];
+  @OneToMany(
+    () => MedicationSickness,
+    (medicationSickness) => medicationSickness.medication,
+    {
+      cascade: true,
+      onDelete: 'SET NULL',
+    },
+  )
+  medicationSicknesses: MedicationSickness[];
 }

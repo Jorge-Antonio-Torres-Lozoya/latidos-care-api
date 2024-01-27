@@ -1,6 +1,3 @@
-import { Medication } from '../medication/medication.entity';
-import { CurrentValue } from '../current-value/current-value.entity';
-
 import {
   Column,
   CreateDateColumn,
@@ -8,10 +5,10 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { TrackingValue } from '../tracking-value/tracking-value.entity';
-import { Sickness } from '../sickness/sickness.entity';
-import { Allergy } from '../allergy/allergy.entity';
-
+import { MedicationSickness } from '../medication-sickness/medication-sickness.entity';
+import { UserAllergy } from '../user-allergy/user-allergy.entity';
+import { UserTrackingValue } from '../user-tracking-value/user-tracking-value.entity';
+import { UserSickness } from '../user-sickness/user-sickness.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -73,33 +70,31 @@ export class User {
   @Column({ nullable: true })
   verification: boolean;
 
-  @OneToMany(() => TrackingValue, (trackingValue) => trackingValue.user, {
-    cascade: true,
-    onDelete: 'SET NULL',
-  })
-  trackingValues: TrackingValue[];
+  @OneToMany(
+    () => MedicationSickness,
+    (medicationSickness) => medicationSickness.user,
+    {
+      cascade: true,
+      onDelete: 'SET NULL',
+    },
+  )
+  medicationSicknesses: MedicationSickness[];
 
-  @OneToMany(() => Sickness, (sicknesses) => sicknesses.user, {
+  @OneToMany(() => UserAllergy, (userAllergy) => userAllergy.user, {
     cascade: true,
     onDelete: 'SET NULL',
   })
-  sicknesses: Sickness[];
+  userAllergies: UserAllergy[];
 
-  @OneToMany(() => Allergy, (allergies) => allergies.user, {
+  @OneToMany(() => UserAllergy, (userTrackingValue) => userTrackingValue.user, {
     cascade: true,
     onDelete: 'SET NULL',
   })
-  allergies: Allergy[];
+  userTrackingValues: UserTrackingValue[];
 
-  @OneToMany(() => Medication, (medication) => medication.user, {
+  @OneToMany(() => UserSickness, (userSickness) => userSickness.user, {
     cascade: true,
     onDelete: 'SET NULL',
   })
-  medications: Medication[];
-
-  @OneToMany(() => CurrentValue, (currentValue) => currentValue.user, {
-    cascade: true,
-    onDelete: 'SET NULL',
-  })
-  currentValues: CurrentValue[];
+  userSicknesses: UserSickness[];
 }
