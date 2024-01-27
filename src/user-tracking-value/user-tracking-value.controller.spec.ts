@@ -9,7 +9,9 @@ describe('UserTrackingValueController', () => {
       controllers: [UserTrackingValueController],
     }).compile();
 
-    controller = module.get<UserTrackingValueController>(UserTrackingValueController);
+    controller = module.get<UserTrackingValueController>(
+      UserTrackingValueController,
+    );
   });
 
   it('should be defined', () => {

@@ -3,7 +3,7 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { UserAllergy } from '../user-allergy/user-allergy.entity';
 
@@ -18,8 +18,9 @@ export class Allergy {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => UserAllergy, (userAllergy) => userAllergy.allergy, {
-    onDelete: 'CASCADE',
+  @OneToMany(() => UserAllergy, (userAllergy) => userAllergy.allergy, {
+    cascade: true,
+    onDelete: 'SET NULL',
   })
-  userAllergies: UserAllergy;
+  userAllergies: UserAllergy[];
 }

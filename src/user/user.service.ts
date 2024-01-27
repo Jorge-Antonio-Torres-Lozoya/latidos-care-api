@@ -37,7 +37,7 @@ export class UserService {
     const findUser = await this.repo.findOne({ where: { userId } });
 
     if (!findUser) {
-      return null;
+      throw new NotFoundException('El usuario no existe');
     }
 
     return findUser;

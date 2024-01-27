@@ -6,6 +6,5 @@ export class CreateAllergiesDto {
   userId: number;
 
   @IsArray()
-  //@ValidateNested({ each: true })
   allergyName: string[];
 }

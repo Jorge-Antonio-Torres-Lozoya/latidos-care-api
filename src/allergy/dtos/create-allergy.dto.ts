@@ -1,10 +1,6 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateAllergyDto {
-  @IsNumber()
-  @IsNotEmpty()
-  userId: number;
-
   @IsString()
   @IsNotEmpty()
   allergyName: string;

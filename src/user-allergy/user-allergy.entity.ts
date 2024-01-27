@@ -21,8 +21,7 @@ export class UserAllergy {
   user: User;
 
   @ManyToOne(() => Allergy, (allergies) => allergies.userAllergies, {
-    cascade: true,
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
   })
   allergy: Allergy;
 }

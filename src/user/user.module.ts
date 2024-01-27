@@ -25,5 +25,6 @@ import { SendgridService } from 'sendgrid.service';
   ],
   controllers: [UserController],
   providers: [UserService, UserLocalStrategy, UserJwtStrategy, SendgridService],
+  exports: [UserService],
 })
 export class UserModule {}
