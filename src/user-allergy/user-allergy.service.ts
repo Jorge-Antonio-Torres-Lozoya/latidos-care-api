@@ -26,18 +26,17 @@ export class UserAllergyService {
   }
 
   async getAllByUser(userId: number): Promise<UserAllergy[]> {
-    const allergy = await this.repo.find({
+    return await this.repo.find({
       where: { user: { userId } },
       relations: { user: true, allergy: true },
     });
-    return allergy;
   }
 
   async create(createDto: CreateUserAllergyDto): Promise<UserAllergy> {
     const user = await this.userService.getOne(createDto.userId);
     const allergy = await this.allergyService.getById(createDto.allergyId);
 
-    const userAllergy = await this.repo.create({
+    const userAllergy = this.repo.create({
       allergy,
       user,
     });

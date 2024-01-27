@@ -1,8 +1,10 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
   Param,
+  Post,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -11,6 +13,7 @@ import { AnyAuthGuard } from '../guards/any.guard';
 import { UserAllergy } from './user-allergy.entity';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserAllergyDto } from './dtos/user-allergy.dto';
+import { CreateUserAllergyDto } from './dtos/create-user-allergy.dto';
 
 @Controller('user-allergy')
 export class UserAllergyController {
@@ -28,10 +31,19 @@ export class UserAllergyController {
   @UseGuards(AnyAuthGuard)
   @Serialize(UserAllergyDto)
   @Get('by-user')
-  async getAllAllergyByUser(
+  async getAllUserAllergyByUser(
     @Query('userId') userId: string,
   ): Promise<UserAllergy[]> {
     return await this.userAllergyService.getAllByUser(parseInt(userId));
+  }
+
+  @UseGuards(AnyAuthGuard)
+  @Serialize(UserAllergyDto)
+  @Post()
+  async createUserAllergy(
+    @Body() body: CreateUserAllergyDto,
+  ): Promise<UserAllergy> {
+    return await this.userAllergyService.create(body);
   }
 
   @UseGuards(AnyAuthGuard)

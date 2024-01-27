@@ -13,48 +13,44 @@ import { Medication } from './medication.entity';
 import { CreateMedicationDto } from './dtos/create-medication.dto';
 import { UpdateMedicationDto } from './dtos/update-medication.dto';
 import { AnyAuthGuard } from '../guards/any.guard';
+import { JwtAdminGuard } from '../admin/admin-auth/admin-guards/admin.jwt.guard';
 
 @Controller('medication')
 export class MedicationController {
   constructor(private medicationService: MedicationService) {}
 
   @UseGuards(AnyAuthGuard)
+  @Get()
+  async getAllMedications(): Promise<Medication[]> {
+    return await this.medicationService.getAll();
+  }
+
+  @UseGuards(AnyAuthGuard)
   @Get('/:id')
   async getMedicationById(
     @Param('id') medicationId: string,
   ): Promise<Medication> {
-    const medication = await this.medicationService.getById(
-      parseInt(medicationId),
-    );
-
-    return medication;
+    return await this.medicationService.getById(parseInt(medicationId));
   }
 
-  @UseGuards(AnyAuthGuard)
+  @UseGuards(JwtAdminGuard)
   @Post()
   async createMedication(
     @Body() body: CreateMedicationDto,
   ): Promise<Medication> {
-    const medication = await this.medicationService.create(body);
-
-    return medication;
+    return await this.medicationService.create(body);
   }
 
-  @UseGuards(AnyAuthGuard)
+  @UseGuards(JwtAdminGuard)
   @Put('/:id')
   async updateMedication(
     @Param('id') medicationId: string,
     @Body() body: UpdateMedicationDto,
   ): Promise<Medication> {
-    const medication = await this.medicationService.edit(
-      parseInt(medicationId),
-      body,
-    );
-
-    return medication;
+    return await this.medicationService.edit(parseInt(medicationId), body);
   }
 
-  @UseGuards(AnyAuthGuard)
+  @UseGuards(JwtAdminGuard)
   @Delete('/:id')
   async deleteMedication(
     @Param('id') medicationId: string,

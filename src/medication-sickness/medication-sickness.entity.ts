@@ -4,8 +4,8 @@ import {
   OneToMany,
   ManyToOne,
   CreateDateColumn,
+  Column,
 } from 'typeorm';
-
 import { Treatment } from '../treatment/treatment.entity';
 import { User } from '../user/user.entity';
 import { Medication } from '../medication/medication.entity';
@@ -15,6 +15,9 @@ import { UserSickness } from '../user-sickness/user-sickness.entity';
 export class MedicationSickness {
   @PrimaryGeneratedColumn()
   medicationSicknessId: number;
+
+  @Column()
+  timeConsumption: number;
 
   @CreateDateColumn()
   createdAt: Date;

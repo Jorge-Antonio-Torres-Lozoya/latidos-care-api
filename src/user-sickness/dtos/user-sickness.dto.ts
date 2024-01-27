@@ -1,8 +1,8 @@
 import { Expose, Transform } from 'class-transformer';
 
-export class UserAllergyDto {
+export class UserSicknessDto {
   @Expose()
-  userAllergyId: number;
+  userSicknessId: number;
 
   @Expose()
   createdAt: Date;
@@ -20,14 +20,14 @@ export class UserAllergyDto {
   lastName?: string;
 
   @Expose()
-  @Transform(({ obj }) => obj.allergy.allergyId)
-  allergyId: number;
+  @Transform(({ obj }) => obj.sickness.sicknessId)
+  sicknessId: number;
 
   @Expose()
-  @Transform(({ obj }) => obj.allergy.allergyName)
-  allergyName: string;
+  @Transform(({ obj }) => obj.sickness.sicknessName)
+  sicknessName: string;
 
   @Expose()
-  @Transform(({ obj }) => obj.allergy.createdAt)
-  allergyCreatedAt: Date;
+  @Transform(({ obj }) => obj.sickness.createdAt)
+  sicknessCreatedAt: Date;
 }

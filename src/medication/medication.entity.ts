@@ -16,9 +16,6 @@ export class Medication {
   @Column()
   medicationName: string;
 
-  @Column()
-  timeConsumption: number;
-
   @CreateDateColumn()
   createdAt: Date;
 
