@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Query,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { TreatmentService } from './treatment.service';
 import { Treatment } from './treatment.entity';
 import { CreateTreatmentDto } from './dtos/create-treatment.dto';
@@ -40,15 +32,6 @@ export class TreatmentController {
   @Get()
   async findAllTreatments(): Promise<Treatment[]> {
     return await this.treatmentService.getAll();
-  }
-
-  @UseGuards(AnyQueryAuthGuard)
-  @Serialize(TreatmentDto)
-  @Get('/:id')
-  async findTreatmentById(
-    @Param('id') treatmentId: string,
-  ): Promise<Treatment> {
-    return await this.treatmentService.getById(parseInt(treatmentId));
   }
 
   @UseGuards(AnyQueryAuthGuard)

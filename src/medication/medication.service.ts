@@ -41,7 +41,7 @@ export class MedicationService {
     const medication = await this.getById(medicationId);
 
     Object.assign(medication, attrs);
-    return this.repo.save(medication);
+    return await this.repo.save(medication);
   }
 
   async delete(medicationId: number): Promise<Medication> {

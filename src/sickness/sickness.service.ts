@@ -37,7 +37,7 @@ export class SicknessService {
     const sickness = await this.getById(sicknessId);
 
     Object.assign(sickness, attrs);
-    return this.repo.save(sickness);
+    return await this.repo.save(sickness);
   }
 
   async delete(sicknessId: number): Promise<Sickness> {

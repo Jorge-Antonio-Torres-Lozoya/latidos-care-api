@@ -53,7 +53,7 @@ export class UserService {
     return findUser.verificationTokenUser;
   }
 
-  createUser(
+  async createUser(
     firstName: string,
     lastName: string,
     phoneNumber: string,
@@ -69,7 +69,7 @@ export class UserService {
       password,
       verificationCode,
     });
-    return this.repo.save(createdUser);
+    return await this.repo.save(createdUser);
   }
 
   async hashPassword(password: string): Promise<string> {
@@ -140,7 +140,7 @@ export class UserService {
     }
 
     Object.assign(updatedUser, attrs);
-    return this.repo.save(updatedUser);
+    return await this.repo.save(updatedUser);
   }
 
   async generateVerificationToken(
@@ -238,7 +238,7 @@ export class UserService {
 
     user.resetPasswordToken = resetPasswordToken;
     user.verificationTokenExpiration = verificationTokenExpiration;
-    return this.repo.save(user);
+    return await this.repo.save(user);
   }
 
   async recoverPassword(userId: number, newPassword: string): Promise<User> {
@@ -264,7 +264,7 @@ export class UserService {
       );
     }
     user.verification = true;
-    return this.repo.save(user);
+    return await this.repo.save(user);
   }
 
   async delete(userId: number) {

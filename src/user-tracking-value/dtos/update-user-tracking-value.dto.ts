@@ -1,16 +1,6 @@
-import {
-  IsBoolean,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class UpdateTrackingAlertsDto {
-  @IsNumber()
-  @IsNotEmpty()
-  userId: number;
-
+export class UpdateUserTrackingValueDto {
   @IsBoolean()
   @IsOptional()
   alertActivated: boolean;
@@ -30,4 +20,16 @@ export class UpdateTrackingAlertsDto {
   @IsString()
   @IsOptional()
   personalizedAlertMaxValue: string;
+
+  @IsNumber()
+  @IsOptional()
+  minLimit?: number;
+
+  @IsNumber()
+  @IsOptional()
+  maxLimit?: number;
+
+  @IsNumber()
+  @IsOptional()
+  currentValue: number;
 }

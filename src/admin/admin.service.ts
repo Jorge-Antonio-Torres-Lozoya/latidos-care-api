@@ -43,13 +43,13 @@ export class AdminService {
     return findAdmin;
   }
 
-  createAdmin(firstName: string, email: string, password: string) {
+  async createAdmin(firstName: string, email: string, password: string) {
     const createdAdmin = this.repo.create({
       firstName,
       email,
       password,
     });
-    return this.repo.save(createdAdmin);
+    return await this.repo.save(createdAdmin);
   }
 
   async hashPassword(password: string) {
@@ -99,7 +99,7 @@ export class AdminService {
   async updateAdmin(adminId: number, attrs: Partial<Admin>) {
     const updatedAdmin = await this.repo.findOne({ where: { adminId } });
     Object.assign(updatedAdmin, attrs);
-    return this.repo.save(updatedAdmin);
+    return await this.repo.save(updatedAdmin);
   }
 
   async updatePassword(adminId: number, password: string, newPassword: string) {
@@ -127,6 +127,6 @@ export class AdminService {
 
   async delete(adminId: number) {
     const deletedAdmin = await this.repo.findOne({ where: { adminId } });
-    return this.repo.remove(deletedAdmin);
+    return await this.repo.remove(deletedAdmin);
   }
 }

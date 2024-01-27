@@ -15,30 +15,6 @@ export class TrackingValue {
   @Column()
   trackingValueName: string;
 
-  @Column()
-  minLimit: number;
-
-  @Column()
-  maxLimit: number;
-
-  @Column()
-  currentValue: number;
-
-  @Column({ default: false })
-  alertActivated: boolean;
-
-  @Column({ default: false })
-  minValueAlertActivated: boolean;
-
-  @Column({ default: false })
-  maxValueAlertActivated: boolean;
-
-  @Column({ type: 'text', nullable: true })
-  personalizedAlertMinValue: string;
-
-  @Column({ type: 'text', nullable: true })
-  personalizedAlertMaxValue: string;
-
   @CreateDateColumn()
   createdAt: Date;
 

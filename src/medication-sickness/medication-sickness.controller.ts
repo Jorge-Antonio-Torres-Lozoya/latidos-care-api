@@ -23,17 +23,6 @@ export class MedicationSicknessController {
 
   @UseGuards(AnyAuthGuard)
   @Serialize(MedicationSicknessDto)
-  @Get('/:id')
-  async getMedicationSicknessById(
-    @Param('id') medicationSicknessId: string,
-  ): Promise<MedicationSickness> {
-    return await this.medicationSicknessService.getById(
-      parseInt(medicationSicknessId),
-    );
-  }
-
-  @UseGuards(AnyAuthGuard)
-  @Serialize(MedicationSicknessDto)
   @Get('by-user')
   async getAllMedicationSicknessByUser(
     @Query('userId') userId: string,

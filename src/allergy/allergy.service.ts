@@ -37,7 +37,7 @@ export class AllergyService {
     const allergy = await this.getById(allergyId);
 
     Object.assign(allergy, attrs);
-    return this.repo.save(allergy);
+    return await this.repo.save(allergy);
   }
 
   async delete(allergyId: number): Promise<Allergy> {

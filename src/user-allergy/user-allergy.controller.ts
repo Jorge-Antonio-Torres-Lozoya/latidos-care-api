@@ -21,15 +21,6 @@ export class UserAllergyController {
 
   @UseGuards(AnyAuthGuard)
   @Serialize(UserAllergyDto)
-  @Get('/:id')
-  async getUserAllergyById(
-    @Param('id') userAllergyId: string,
-  ): Promise<UserAllergy> {
-    return await this.userAllergyService.getById(parseInt(userAllergyId));
-  }
-
-  @UseGuards(AnyAuthGuard)
-  @Serialize(UserAllergyDto)
   @Get('by-user')
   async getAllUserAllergyByUser(
     @Query('userId') userId: string,
