@@ -24,7 +24,7 @@ export class CurrentValueService {
   }
 
   async getCurrentValuesBetweenDates(
-    userId: number,
+    accountId: number,
     startDate: Date,
     endDate: Date,
   ): Promise<CurrentValue[]> {
@@ -34,23 +34,26 @@ export class CurrentValueService {
       .addSelect(['trackingValue.trackingValueName'])
       .where('currentValue.createdAt >= :startDate', { startDate })
       .andWhere('currentValue.createdAt <= :endDate', { endDate })
-      .andWhere('currentValue.userTrackingValue.user.userId <= :userId', {
-        userId,
-      })
+      .andWhere(
+        'currentValue.userTrackingValue.account.accountId <= :accountId',
+        {
+          accountId,
+        },
+      )
       .getMany();
   }
 
   async newGetCurrentValuesBetweenDates(
-    userId: number,
+    accountId: number,
     startDate: Date,
     endDate: Date,
   ): Promise<CurrentValue[]> {
     return await this.repo.find({
       where: {
-        userTrackingValue: { user: { userId } },
+        userTrackingValue: { account: { accountId } },
         createdAt: Between(startDate, endDate),
       },
-      relations: { userTrackingValue: { user: true, trackingValue: true } },
+      relations: { userTrackingValue: { account: true, trackingValue: true } },
     });
   }
 }

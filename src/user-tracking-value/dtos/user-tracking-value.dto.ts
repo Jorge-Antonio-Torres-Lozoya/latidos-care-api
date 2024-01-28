@@ -33,15 +33,15 @@ export class UserTrackingValueDto {
   createdAt: Date;
 
   @Expose()
-  @Transform(({ obj }) => obj.user.userId)
-  userId: number;
+  @Transform(({ obj }) => obj.account.accountId)
+  accountId: number;
 
   @Expose()
-  @Transform(({ obj }) => obj.user.firstName)
+  @Transform(({ obj }) => obj.account.firstName)
   firstName: string;
 
   @Expose()
-  @Transform(({ obj }) => obj.user.lastName)
+  @Transform(({ obj }) => obj.account.lastName)
   lastName?: string;
 
   @Expose()

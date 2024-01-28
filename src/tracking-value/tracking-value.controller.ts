@@ -12,20 +12,24 @@ import { CreateTrackingValueDto } from './dtos/create-tracking-value.dto';
 import { UpdateTrackingValueDto } from './dtos/update-tracking-value.dto';
 import { TrackingValue } from './tracking-value.entity';
 import { TrackingValueService } from './tracking-value.service';
+import { JwtAccountGuard } from '../account/account-auth/account-guards/account.jwt.guard';
+import { RolesGuard } from '../account/account-auth/account-guards/roles.guard';
+import { Roles } from '../shared/roles.decorator';
 //import { client } from '../main';
-import { AnyAuthGuard } from '../guards/any.guard';
 
 @Controller('tracking-value')
 export class TrackingValueController {
   constructor(private trackingValueService: TrackingValueService) {}
 
-  @UseGuards(AnyAuthGuard)
+  @UseGuards(JwtAccountGuard, RolesGuard)
+  @Roles('Admin', 'User')
   @Get()
   async getAllTrackingValue(): Promise<TrackingValue[]> {
     return await this.trackingValueService.getAll();
   }
 
-  @UseGuards(AnyAuthGuard)
+  @UseGuards(JwtAccountGuard, RolesGuard)
+  @Roles('Admin', 'User')
   @Get('/:id')
   async getTrackingValueById(
     @Param('id') trackingValueId: string,
@@ -33,7 +37,8 @@ export class TrackingValueController {
     return await this.trackingValueService.getById(parseInt(trackingValueId));
   }
 
-  @UseGuards(AnyAuthGuard)
+  @UseGuards(JwtAccountGuard, RolesGuard)
+  @Roles('Admin', 'User')
   @Post()
   async createTrackingValue(
     @Body() body: CreateTrackingValueDto,
@@ -41,7 +46,8 @@ export class TrackingValueController {
     return await this.trackingValueService.create(body);
   }
 
-  @UseGuards(AnyAuthGuard)
+  @UseGuards(JwtAccountGuard, RolesGuard)
+  @Roles('Admin', 'User')
   @Put('/:id')
   async updateTrackingValue(
     @Param('id') trackingValueId: string,
@@ -53,7 +59,8 @@ export class TrackingValueController {
     );
   }
 
-  @UseGuards(AnyAuthGuard)
+  @UseGuards(JwtAccountGuard, RolesGuard)
+  @Roles('Admin', 'User')
   @Delete('/:id')
   async deleteTrackingValue(
     @Param('id') trackingValueId: string,

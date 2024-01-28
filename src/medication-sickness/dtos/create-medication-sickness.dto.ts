@@ -3,7 +3,7 @@ import { IsNotEmpty, IsNumber } from 'class-validator';
 export class CreateMedicationSicknessDto {
   @IsNumber()
   @IsNotEmpty()
-  userId: number;
+  accountId: number;
 
   @IsNumber()
   @IsNotEmpty()

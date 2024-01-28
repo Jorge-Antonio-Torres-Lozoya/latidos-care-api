@@ -10,36 +10,42 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UserTrackingValueService } from './user-tracking-value.service';
-import { AnyAuthGuard } from '../guards/any.guard';
 import { UserTrackingValue } from './user-tracking-value.entity';
-import { JwtAdminGuard } from '../admin/admin-auth/admin-guards/admin.jwt.guard';
 import { CreateUserTrackingValueDto } from './dtos/create-user-tracking-value.dto';
 import { UpdateUserTrackingValueDto } from './dtos/update-user-tracking-value.dto';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserTrackingValueDto } from './dtos/user-tracking-value.dto';
+import { JwtAccountGuard } from '../account/account-auth/account-guards/account.jwt.guard';
+import { RolesGuard } from '../account/account-auth/account-guards/roles.guard';
+import { Roles } from '../shared/roles.decorator';
 //import { client } from '../main';
 
 @Controller('user-tracking-value')
 export class UserTrackingValueController {
   constructor(private userTrackingValueService: UserTrackingValueService) {}
 
-  @UseGuards(AnyAuthGuard)
+  @UseGuards(JwtAccountGuard, RolesGuard)
+  @Roles('Admin', 'User')
   @Serialize(UserTrackingValueDto)
-  @Get('by-user')
-  async getUserTrackingValueByUser(
-    @Query('userId') userId: string,
+  @Get('by-account')
+  async getUserTrackingValueByAccount(
+    @Query('accountId') accountId: string,
   ): Promise<UserTrackingValue[]> {
-    return await this.userTrackingValueService.getAllByUser(parseInt(userId));
+    return await this.userTrackingValueService.getAllByAccount(
+      parseInt(accountId),
+    );
   }
 
-  @UseGuards(JwtAdminGuard)
+  @UseGuards(JwtAccountGuard, RolesGuard)
+  @Roles('Admin')
   @Serialize(UserTrackingValueDto)
   @Get()
   getAllUserTrackingValue(): Promise<UserTrackingValue[]> {
     return this.userTrackingValueService.getAll();
   }
 
-  @UseGuards(AnyAuthGuard)
+  @UseGuards(JwtAccountGuard, RolesGuard)
+  @Roles('Admin', 'User')
   @Serialize(UserTrackingValueDto)
   @Post()
   async createUserTrackingValue(
@@ -100,7 +106,8 @@ export class UserTrackingValueController {
     return userTrackingValue;
   }
 
-  @UseGuards(AnyAuthGuard)
+  @UseGuards(JwtAccountGuard, RolesGuard)
+  @Roles('Admin', 'User')
   @Serialize(UserTrackingValueDto)
   @Put('/:id')
   async updateUserTrackingValue(
@@ -167,7 +174,8 @@ export class UserTrackingValueController {
     return userTrackingValue;
   }
 
-  @UseGuards(AnyAuthGuard)
+  @UseGuards(JwtAccountGuard, RolesGuard)
+  @Roles('Admin', 'User')
   @Serialize(UserTrackingValueDto)
   @Delete('/:id')
   async deleteUserTrackingValue(

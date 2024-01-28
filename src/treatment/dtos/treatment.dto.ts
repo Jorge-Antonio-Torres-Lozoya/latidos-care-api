@@ -20,15 +20,15 @@ export class TreatmentDto {
   timeConsumption: number;
 
   @Expose()
-  @Transform(({ obj }) => obj.medicationSickness.user.userId)
-  userId: number;
+  @Transform(({ obj }) => obj.medicationSickness.account.accountId)
+  accountId: number;
 
   @Expose()
-  @Transform(({ obj }) => obj.medicationSickness.user.firstName)
+  @Transform(({ obj }) => obj.medicationSickness.account.firstName)
   firstName: string;
 
   @Expose()
-  @Transform(({ obj }) => obj.medicationSickness.user.lastName)
+  @Transform(({ obj }) => obj.medicationSickness.account.lastName)
   lastName?: string;
 
   @Expose()

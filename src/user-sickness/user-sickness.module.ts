@@ -4,12 +4,12 @@ import { UserSicknessService } from './user-sickness.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SicknessModule } from '../sickness/sickness.module';
 import { UserSickness } from './user-sickness.entity';
-import { UserModule } from '../user/user.module';
+import { AccountModule } from '../account/account.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserSickness]),
-    UserModule,
+    AccountModule,
     SicknessModule,
   ],
   controllers: [UserSicknessController],

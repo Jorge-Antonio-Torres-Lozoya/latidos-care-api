@@ -2,22 +2,22 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserAllergy } from './user-allergy.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserService } from '../user/user.service';
 import { AllergyService } from '../allergy/allergy.service';
 import { CreateUserAllergyDto } from './dtos/create-user-allergy.dto';
+import { AccountService } from '../account/account.service';
 
 @Injectable()
 export class UserAllergyService {
   constructor(
     @InjectRepository(UserAllergy) private repo: Repository<UserAllergy>,
-    private userService: UserService,
+    private accountService: AccountService,
     private allergyService: AllergyService,
   ) {}
 
   async getById(userAllergyId: number): Promise<UserAllergy> {
     const userAllergy = await this.repo.findOne({
       where: { userAllergyId },
-      relations: { user: true, allergy: true },
+      relations: { account: true, allergy: true },
     });
     if (!userAllergy) {
       throw new NotFoundException('La alergia no fue encontrada');
@@ -25,20 +25,20 @@ export class UserAllergyService {
     return userAllergy;
   }
 
-  async getAllByUser(userId: number): Promise<UserAllergy[]> {
+  async getAllByAccount(accountId: number): Promise<UserAllergy[]> {
     return await this.repo.find({
-      where: { user: { userId } },
-      relations: { user: true, allergy: true },
+      where: { account: { accountId } },
+      relations: { account: true, allergy: true },
     });
   }
 
   async create(createDto: CreateUserAllergyDto): Promise<UserAllergy> {
-    const user = await this.userService.getOne(createDto.userId);
+    const account = await this.accountService.getById(createDto.accountId);
     const allergy = await this.allergyService.getById(createDto.allergyId);
 
     const userAllergy = this.repo.create({
       allergy,
-      user,
+      account,
     });
 
     await this.repo.save(userAllergy);

@@ -21,7 +21,7 @@ export class TreatmentService {
       relations: {
         medicationSickness: {
           medication: true,
-          user: true,
+          account: true,
           userSickness: { sickness: true },
         },
       },
@@ -34,7 +34,7 @@ export class TreatmentService {
       relations: {
         medicationSickness: {
           medication: true,
-          user: true,
+          account: true,
           userSickness: { sickness: true },
         },
       },
@@ -53,7 +53,7 @@ export class TreatmentService {
       relations: {
         medicationSickness: {
           medication: true,
-          user: true,
+          account: true,
           userSickness: { sickness: true },
         },
       },
@@ -101,7 +101,7 @@ export class TreatmentService {
       relations: {
         medicationSickness: {
           medication: true,
-          user: true,
+          account: true,
           userSickness: { sickness: true },
         },
       },

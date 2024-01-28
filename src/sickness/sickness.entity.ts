@@ -15,6 +15,9 @@ export class Sickness {
   @Column()
   sicknessName: string;
 
+  @Column({ unique: true })
+  slug: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

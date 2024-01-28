@@ -48,15 +48,15 @@ export class CurrentValueDto {
   userTrackingValueCreatedAt: Date;
 
   @Expose()
-  @Transform(({ obj }) => obj.userTrackingValue.user.userId)
+  @Transform(({ obj }) => obj.userTrackingValue.account.accountId)
   userId: number;
 
   @Expose()
-  @Transform(({ obj }) => obj.userTrackingValue.user.firstName)
+  @Transform(({ obj }) => obj.userTrackingValue.account.firstName)
   firstName: string;
 
   @Expose()
-  @Transform(({ obj }) => obj.userTrackingValue.user.lastName)
+  @Transform(({ obj }) => obj.userTrackingValue.account.lastName)
   lastName?: string;
 
   @Expose()

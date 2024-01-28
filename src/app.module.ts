@@ -1,8 +1,6 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
-import { AdminModule } from './admin/admin.module';
 import { MedicationModule } from './medication/medication.module';
 import { TreatmentModule } from './treatment/treatment.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -18,6 +16,9 @@ import { UserTrackingValueModule } from './user-tracking-value/user-tracking-val
 import { UserSicknessModule } from './user-sickness/user-sickness.module';
 import { MedicationSicknessModule } from './medication-sickness/medication-sickness.module';
 import { UserAllergyModule } from './user-allergy/user-allergy.module';
+import { AccountModule } from './account/account.module';
+import { RoleModule } from './role/role.module';
+import { RoleAccountModule } from './role-account/role-account.module';
 
 @Module({
   imports: [
@@ -36,8 +37,6 @@ import { UserAllergyModule } from './user-allergy/user-allergy.module';
         return dbOptions;
       },
     }),
-    UserModule,
-    AdminModule,
     TrackingValueModule,
     MedicationModule,
     TreatmentModule,
@@ -48,6 +47,9 @@ import { UserAllergyModule } from './user-allergy/user-allergy.module';
     UserSicknessModule,
     MedicationSicknessModule,
     UserAllergyModule,
+    AccountModule,
+    RoleModule,
+    RoleAccountModule,
   ],
   controllers: [AppController],
   providers: [

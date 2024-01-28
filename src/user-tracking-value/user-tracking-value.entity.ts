@@ -1,4 +1,3 @@
-import { User } from '../user/user.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -9,6 +8,7 @@ import {
 } from 'typeorm';
 import { CurrentValue } from '../current-value/current-value.entity';
 import { TrackingValue } from '../tracking-value/tracking-value.entity';
+import { Account } from '../account/account.entity';
 
 @Entity()
 export class UserTrackingValue {
@@ -42,10 +42,10 @@ export class UserTrackingValue {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => User, (user) => user.userTrackingValues, {
+  @ManyToOne(() => Account, (account) => account.userTrackingValues, {
     onDelete: 'CASCADE',
   })
-  user: User;
+  account: Account;
 
   @OneToMany(
     () => CurrentValue,

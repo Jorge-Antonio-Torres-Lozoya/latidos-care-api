@@ -12,20 +12,23 @@ import { MedicationService } from './medication.service';
 import { Medication } from './medication.entity';
 import { CreateMedicationDto } from './dtos/create-medication.dto';
 import { UpdateMedicationDto } from './dtos/update-medication.dto';
-import { AnyAuthGuard } from '../guards/any.guard';
-import { JwtAdminGuard } from '../admin/admin-auth/admin-guards/admin.jwt.guard';
+import { JwtAccountGuard } from '../account/account-auth/account-guards/account.jwt.guard';
+import { RolesGuard } from '../account/account-auth/account-guards/roles.guard';
+import { Roles } from '../shared/roles.decorator';
 
 @Controller('medication')
 export class MedicationController {
   constructor(private medicationService: MedicationService) {}
 
-  @UseGuards(AnyAuthGuard)
+  @UseGuards(JwtAccountGuard, RolesGuard)
+  @Roles('Admin', 'User')
   @Get()
   async getAllMedications(): Promise<Medication[]> {
     return await this.medicationService.getAll();
   }
 
-  @UseGuards(AnyAuthGuard)
+  @UseGuards(JwtAccountGuard, RolesGuard)
+  @Roles('Admin', 'User')
   @Get('/:id')
   async getMedicationById(
     @Param('id') medicationId: string,
@@ -33,7 +36,15 @@ export class MedicationController {
     return await this.medicationService.getById(parseInt(medicationId));
   }
 
-  @UseGuards(JwtAdminGuard)
+  @UseGuards(JwtAccountGuard, RolesGuard)
+  @Roles('Admin', 'User')
+  @Get('by-slug/:slug')
+  async getMedicationBySlug(@Param('slug') slug: string): Promise<Medication> {
+    return await this.medicationService.getBySlug(slug);
+  }
+
+  @UseGuards(JwtAccountGuard, RolesGuard)
+  @Roles('Admin')
   @Post()
   async createMedication(
     @Body() body: CreateMedicationDto,
@@ -41,7 +52,8 @@ export class MedicationController {
     return await this.medicationService.create(body);
   }
 
-  @UseGuards(JwtAdminGuard)
+  @UseGuards(JwtAccountGuard, RolesGuard)
+  @Roles('Admin')
   @Put('/:id')
   async updateMedication(
     @Param('id') medicationId: string,
@@ -50,7 +62,8 @@ export class MedicationController {
     return await this.medicationService.edit(parseInt(medicationId), body);
   }
 
-  @UseGuards(JwtAdminGuard)
+  @UseGuards(JwtAccountGuard, RolesGuard)
+  @Roles('Admin')
   @Delete('/:id')
   async deleteMedication(
     @Param('id') medicationId: string,

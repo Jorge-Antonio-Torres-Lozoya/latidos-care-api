@@ -2,18 +2,18 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserTrackingValue } from './user-tracking-value.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserService } from '../user/user.service';
 import { TrackingValueService } from '../tracking-value/tracking-value.service';
 import { CurrentValueService } from '../current-value/current-value.service';
 import { UpdateUserTrackingValueDto } from './dtos/update-user-tracking-value.dto';
 import { CreateUserTrackingValueDto } from './dtos/create-user-tracking-value.dto';
+import { AccountService } from '../account/account.service';
 
 @Injectable()
 export class UserTrackingValueService {
   constructor(
     @InjectRepository(UserTrackingValue)
     private repo: Repository<UserTrackingValue>,
-    private userService: UserService,
+    private accountService: AccountService,
     private trackingValueService: TrackingValueService,
     private currentValueService: CurrentValueService,
   ) {}
@@ -23,7 +23,7 @@ export class UserTrackingValueService {
       relations: {
         currentValues: true,
         trackingValue: true,
-        user: true,
+        account: true,
       },
     });
   }
@@ -34,7 +34,7 @@ export class UserTrackingValueService {
       relations: {
         currentValues: true,
         trackingValue: true,
-        user: true,
+        account: true,
       },
     });
 
@@ -45,13 +45,13 @@ export class UserTrackingValueService {
     return userTrackingValue;
   }
 
-  async getAllByUser(userId: number): Promise<UserTrackingValue[]> {
+  async getAllByAccount(accountId: number): Promise<UserTrackingValue[]> {
     return await this.repo.find({
-      where: { user: { userId } },
+      where: { account: { accountId } },
       relations: {
         currentValues: true,
         trackingValue: true,
-        user: true,
+        account: true,
       },
     });
   }
@@ -59,7 +59,7 @@ export class UserTrackingValueService {
   async create(
     createDto: CreateUserTrackingValueDto,
   ): Promise<UserTrackingValue> {
-    const user = await this.userService.getOne(createDto.userId);
+    const account = await this.accountService.getById(createDto.accountId);
     const trackingValue = await this.trackingValueService.getById(
       createDto.trackingValueId,
     );
@@ -67,7 +67,7 @@ export class UserTrackingValueService {
       currentValue: createDto.currentValue,
       minLimit: createDto.minLimit,
       maxLimit: createDto.maxLimit,
-      user,
+      account,
       trackingValue,
     });
 

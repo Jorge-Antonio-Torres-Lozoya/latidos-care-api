@@ -2,17 +2,17 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { MedicationSickness } from './medication-sickness.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserService } from '../user/user.service';
 import { UserSicknessService } from '../user-sickness/user-sickness.service';
 import { MedicationService } from '../medication/medication.service';
 import { CreateMedicationSicknessDto } from './dtos/create-medication-sickness.dto';
+import { AccountService } from '../account/account.service';
 
 @Injectable()
 export class MedicationSicknessService {
   constructor(
     @InjectRepository(MedicationSickness)
     private repo: Repository<MedicationSickness>,
-    private userService: UserService,
+    private accountService: AccountService,
     private userSicknessService: UserSicknessService,
     private medicationService: MedicationService,
   ) {}
@@ -21,7 +21,7 @@ export class MedicationSicknessService {
     const medicationSickness = await this.repo.findOne({
       where: { medicationSicknessId },
       relations: {
-        user: true,
+        account: true,
         userSickness: { sickness: true },
         medication: true,
       },
@@ -32,11 +32,11 @@ export class MedicationSicknessService {
     return medicationSickness;
   }
 
-  async getAllByUser(userId: number): Promise<MedicationSickness[]> {
+  async getAllByAccount(accountId: number): Promise<MedicationSickness[]> {
     return await this.repo.find({
-      where: { user: { userId } },
+      where: { account: { accountId } },
       relations: {
-        user: true,
+        account: true,
         userSickness: { sickness: true },
         medication: true,
       },
@@ -46,7 +46,7 @@ export class MedicationSicknessService {
   async create(
     createDto: CreateMedicationSicknessDto,
   ): Promise<MedicationSickness> {
-    const user = await this.userService.getOne(createDto.userId);
+    const account = await this.accountService.getById(createDto.accountId);
     const userSickness = await this.userSicknessService.getById(
       createDto.userSicknessId,
     );
@@ -55,7 +55,7 @@ export class MedicationSicknessService {
     );
 
     const medicationSickness = this.repo.create({
-      user,
+      account,
       medication,
       userSickness,
       timeConsumption: createDto.timeConsumption,

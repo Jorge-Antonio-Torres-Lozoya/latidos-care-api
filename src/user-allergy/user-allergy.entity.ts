@@ -1,5 +1,5 @@
+import { Account } from '../account/account.entity';
 import { Allergy } from '../allergy/allergy.entity';
-import { User } from '../user/user.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -15,10 +15,10 @@ export class UserAllergy {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => User, (user) => user.userAllergies, {
+  @ManyToOne(() => Account, (account) => account.userAllergies, {
     onDelete: 'CASCADE',
   })
-  user: User;
+  account: Account;
 
   @ManyToOne(() => Allergy, (allergies) => allergies.userAllergies, {
     onDelete: 'CASCADE',
