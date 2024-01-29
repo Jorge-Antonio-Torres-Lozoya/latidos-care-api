@@ -167,7 +167,6 @@ export class AccountService {
       accountId: account.accountId,
       activeRole: account.activeRole,
       slug: account.slug,
-      mentor: account.mentor,
     };
   }
 

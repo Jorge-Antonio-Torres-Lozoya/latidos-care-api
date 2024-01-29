@@ -8,3 +8,11 @@ export function generateSlug(dataString: string): string {
   const slug = dataString.toLowerCase().replace(/\s+/g, '');
   return slug;
 }
+
+export function generateComplexSlug(
+  medication: string,
+  sickness: string,
+): string {
+  const slug = (medication + sickness).toLowerCase().replace(/\s+/g, '-');
+  return slug;
+}

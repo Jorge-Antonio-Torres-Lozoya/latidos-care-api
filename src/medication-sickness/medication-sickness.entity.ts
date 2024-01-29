@@ -19,6 +19,9 @@ export class MedicationSickness {
   @Column()
   timeConsumption: number;
 
+  @Column({ unique: true })
+  slug: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

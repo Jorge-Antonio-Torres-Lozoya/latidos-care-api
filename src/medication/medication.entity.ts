@@ -16,9 +16,6 @@ export class Medication {
   @Column()
   medicationName: string;
 
-  @Column({ unique: true })
-  slug: string;
-
   @CreateDateColumn()
   createdAt: Date;
 

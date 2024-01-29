@@ -6,6 +6,7 @@ import { UserSicknessService } from '../user-sickness/user-sickness.service';
 import { MedicationService } from '../medication/medication.service';
 import { CreateMedicationSicknessDto } from './dtos/create-medication-sickness.dto';
 import { AccountService } from '../account/account.service';
+import { generateComplexSlug } from '../shared/helpersFunc';
 
 @Injectable()
 export class MedicationSicknessService {
@@ -43,6 +44,24 @@ export class MedicationSicknessService {
     });
   }
 
+  async getBySlug(slug: string): Promise<MedicationSickness> {
+    const medicationSickness = await this.repo.findOne({
+      where: { slug },
+    });
+
+    if (!medicationSickness) {
+      throw new NotFoundException('La medicina no fue encontrada');
+    }
+
+    return medicationSickness;
+  }
+
+  async getAllBySlug(slug: string): Promise<MedicationSickness[]> {
+    return await this.repo.find({
+      where: { slug },
+    });
+  }
+
   async create(
     createDto: CreateMedicationSicknessDto,
   ): Promise<MedicationSickness> {
@@ -54,11 +73,23 @@ export class MedicationSicknessService {
       createDto.medicationId,
     );
 
+    let baseSlug = generateComplexSlug(
+      medication.medicationName,
+      userSickness.sickness.sicknessName,
+    );
+    let foundMedications = await this.getAllBySlug(baseSlug);
+    while (foundMedications.length > 0) {
+      const randomDigit = Math.floor(Math.random() * 100);
+      baseSlug = `${baseSlug}${randomDigit}`;
+      foundMedications = await this.getAllBySlug(baseSlug);
+    }
+
     const medicationSickness = this.repo.create({
       account,
       medication,
       userSickness,
       timeConsumption: createDto.timeConsumption,
+      slug: baseSlug,
     });
 
     await this.repo.save(medicationSickness);

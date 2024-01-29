@@ -11,6 +11,9 @@ export class MedicationSicknessDto {
   timeConsumption: number;
 
   @Expose()
+  slug: string;
+
+  @Expose()
   @Transform(({ obj }) => obj.account.accountId)
   accountId: number;
 

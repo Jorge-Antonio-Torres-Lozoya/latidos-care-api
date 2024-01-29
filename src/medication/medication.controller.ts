@@ -37,13 +37,6 @@ export class MedicationController {
   }
 
   @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
-  @Get('by-slug/:slug')
-  async getMedicationBySlug(@Param('slug') slug: string): Promise<Medication> {
-    return await this.medicationService.getBySlug(slug);
-  }
-
-  @UseGuards(JwtAccountGuard, RolesGuard)
   @Roles('Admin')
   @Post()
   async createMedication(
