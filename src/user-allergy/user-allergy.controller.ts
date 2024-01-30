@@ -13,16 +13,13 @@ import { UserAllergy } from './user-allergy.entity';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserAllergyDto } from './dtos/user-allergy.dto';
 import { CreateUserAllergyDto } from './dtos/create-user-allergy.dto';
-import { RolesGuard } from '../account/account-auth/account-guards/roles.guard';
-import { JwtAccountGuard } from '../account/account-auth/account-guards/account.jwt.guard';
-import { Roles } from '../shared/roles.decorator';
+import { AnyAuthGuard } from '../guards/any.guard';
 
 @Controller('user-allergy')
 export class UserAllergyController {
   constructor(private userAllergyService: UserAllergyService) {}
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  @UseGuards(AnyAuthGuard)
   @Serialize(UserAllergyDto)
   @Get('by-account')
   async getAllAccountAllergyByAccount(
@@ -31,8 +28,7 @@ export class UserAllergyController {
     return await this.userAllergyService.getAllByAccount(parseInt(accountId));
   }
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  @UseGuards(AnyAuthGuard)
   @Serialize(UserAllergyDto)
   @Post()
   async createUserAllergy(
@@ -41,8 +37,7 @@ export class UserAllergyController {
     return await this.userAllergyService.create(body);
   }
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  @UseGuards(AnyAuthGuard)
   @Serialize(UserAllergyDto)
   @Delete('/:id')
   async deleteUserAllergy(

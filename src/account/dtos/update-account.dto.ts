@@ -32,4 +32,8 @@ export class UpdateAccountDto {
   @IsOptional()
   @IsString()
   tutorPhoneNumber: string;
+
+  @IsOptional()
+  @IsString()
+  activeRole: string;
 }

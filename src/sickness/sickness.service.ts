@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Sickness } from './sickness.entity';
 import { Repository } from 'typeorm';
 import { CreateSicknessDto } from './dtos/create-sickness.dto';
-import { generateSlug } from '../shared/helpersFunc';
 
 @Injectable()
 export class SicknessService {
@@ -26,35 +25,9 @@ export class SicknessService {
     return sickness;
   }
 
-  async getBySlug(slug: string): Promise<Sickness> {
-    const medication = await this.repo.findOne({
-      where: { slug },
-    });
-
-    if (!medication) {
-      throw new NotFoundException('La medicina no fue encontrada');
-    }
-
-    return medication;
-  }
-
-  async getAllBySlug(slug: string): Promise<Sickness[]> {
-    return await this.repo.find({
-      where: { slug },
-    });
-  }
-
   async create(createDto: CreateSicknessDto): Promise<Sickness> {
-    let baseSlug = generateSlug(createDto.sicknessName);
-    let foundMedications = await this.getAllBySlug(baseSlug);
-    while (foundMedications.length > 0) {
-      const randomDigit = Math.floor(Math.random() * 100);
-      baseSlug = `${baseSlug}${randomDigit}`;
-      foundMedications = await this.getAllBySlug(baseSlug);
-    }
     const sickness = this.repo.create({
       sicknessName: createDto.sicknessName,
-      slug: baseSlug,
     });
 
     return await this.repo.save(sickness);

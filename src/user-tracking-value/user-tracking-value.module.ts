@@ -6,6 +6,8 @@ import { UserTrackingValue } from './user-tracking-value.entity';
 import { TrackingValueModule } from '../tracking-value/tracking-value.module';
 import { CurrentValueModule } from '../current-value/current-value.module';
 import { AccountModule } from '../account/account.module';
+import { JwtAccountGuard } from '../account/account-auth/account-guards/account.jwt.guard';
+import { VerificationTokenGuard } from '../guards/verification-token.guard';
 
 @Module({
   imports: [
@@ -15,7 +17,11 @@ import { AccountModule } from '../account/account.module';
     CurrentValueModule,
   ],
   controllers: [UserTrackingValueController],
-  providers: [UserTrackingValueService],
+  providers: [
+    UserTrackingValueService,
+    JwtAccountGuard,
+    VerificationTokenGuard,
+  ],
   exports: [UserTrackingValueService],
 })
 export class UserTrackingValueModule {}

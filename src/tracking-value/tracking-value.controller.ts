@@ -21,8 +21,8 @@ import { Roles } from '../shared/roles.decorator';
 export class TrackingValueController {
   constructor(private trackingValueService: TrackingValueService) {}
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  //@UseGuards(JwtAccountGuard, RolesGuard)
+  //@Roles('Admin', 'User')
   @Get()
   async getAllTrackingValue(): Promise<TrackingValue[]> {
     return await this.trackingValueService.getAll();

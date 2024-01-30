@@ -20,8 +20,8 @@ import { Roles } from '../shared/roles.decorator';
 export class MedicationController {
   constructor(private medicationService: MedicationService) {}
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  //@UseGuards(JwtAccountGuard, RolesGuard)
+  //@Roles('Admin', 'User')
   @Get()
   async getAllMedications(): Promise<Medication[]> {
     return await this.medicationService.getAll();

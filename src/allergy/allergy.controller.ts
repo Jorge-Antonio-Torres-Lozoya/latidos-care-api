@@ -20,8 +20,8 @@ import { JwtAccountGuard } from '../account/account-auth/account-guards/account.
 export class AllergyController {
   constructor(private allergyService: AllergyService) {}
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  //@UseGuards(JwtAccountGuard, RolesGuard)
+  //@Roles('Admin', 'User')
   @Get()
   async getAllAllergy(): Promise<Allergy[]> {
     return await this.allergyService.getAll();

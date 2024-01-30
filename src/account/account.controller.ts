@@ -28,6 +28,7 @@ import { RolesGuard } from './account-auth/account-guards/roles.guard';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { Roles } from '../shared/roles.decorator';
 import { SendgridService } from '../../sendgrid.service';
+import { VerificationToken } from './dtos/verification-token.dto';
 
 @Controller('account')
 export class AccountController {
@@ -182,6 +183,56 @@ export class AccountController {
     );
 
     return { validated: validation };
+  }
+
+  @Get('/validate-verification-token/:id')
+  async validateUserVerificationToken(
+    @Param('id') accountId: string,
+    @Query('verification-token') token: string,
+  ): Promise<VerificationValidatedToken> {
+    const validation = await this.accountService.validateToken(
+      parseInt(accountId),
+      token,
+    );
+
+    return { validated: validation };
+  }
+
+  @Get('/verification-token/:id')
+  async getOneUserVerificationToken(
+    @Param('id') accountId: string,
+  ): Promise<VerificationToken> {
+    const verificationTokenUser =
+      await this.accountService.getVerificationToken(parseInt(accountId));
+
+    return { verificationToken: verificationTokenUser };
+  }
+
+  @UseGuards(JwtAccountGuard)
+  @Get('/generate-verification-token/:id')
+  async generateUserVerificationToken(
+    @Param('id') accountId: string,
+  ): Promise<VerificationToken> {
+    const verificationToken = Math.floor(
+      100000 + Math.random() * 900000,
+    ).toString();
+    const token = await this.accountService.generateVerificationToken(
+      parseInt(accountId),
+      verificationToken,
+    );
+    return { verificationToken: token };
+  }
+
+  @Serialize(AccountDto)
+  @UseGuards(JwtAccountGuard)
+  @Get('/register-data/:id')
+  async updateRegisterDataUser(
+    @Param('id') accountId: string,
+  ): Promise<Account> {
+    const user = await this.accountService.updateRegisterData(
+      parseInt(accountId),
+    );
+    return user;
   }
 
   @Serialize(AccountDto)

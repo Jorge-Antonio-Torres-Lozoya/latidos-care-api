@@ -167,6 +167,7 @@ export class AccountService {
       accountId: account.accountId,
       activeRole: account.activeRole,
       slug: account.slug,
+      registerData: account.registerData,
     };
   }
 
@@ -278,5 +279,40 @@ export class AccountService {
   async delete(accountId: number) {
     const deletedAccount = await this.getById(accountId);
     return this.repo.remove(deletedAccount);
+  }
+
+  async generateVerificationToken(
+    accountId: number,
+    token: string,
+  ): Promise<string> {
+    const account = await this.getById(accountId);
+    account.verificationTokenUser = token;
+    await this.repo.save(account);
+    return token;
+  }
+
+  async getVerificationToken(accountId: number): Promise<string> {
+    const account = await this.getById(accountId);
+
+    return account.verificationTokenUser;
+  }
+
+  async validateToken(accountId: number, token: string): Promise<boolean> {
+    const account = await this.getById(accountId);
+
+    if (account.verificationTokenUser === token) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  async updateRegisterData(accountId: number): Promise<Account> {
+    const account = await this.getById(accountId);
+
+    account.registerData = true;
+    await this.repo.save(account);
+
+    return account;
   }
 }

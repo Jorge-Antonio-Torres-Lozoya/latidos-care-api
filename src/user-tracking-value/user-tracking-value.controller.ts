@@ -18,14 +18,14 @@ import { UserTrackingValueDto } from './dtos/user-tracking-value.dto';
 import { JwtAccountGuard } from '../account/account-auth/account-guards/account.jwt.guard';
 import { RolesGuard } from '../account/account-auth/account-guards/roles.guard';
 import { Roles } from '../shared/roles.decorator';
+import { AnyAuthGuard } from '../guards/any.guard';
 //import { client } from '../main';
 
 @Controller('user-tracking-value')
 export class UserTrackingValueController {
   constructor(private userTrackingValueService: UserTrackingValueService) {}
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  @UseGuards(AnyAuthGuard)
   @Serialize(UserTrackingValueDto)
   @Get('by-account')
   async getUserTrackingValueByAccount(
@@ -44,8 +44,7 @@ export class UserTrackingValueController {
     return this.userTrackingValueService.getAll();
   }
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  @UseGuards(AnyAuthGuard)
   @Serialize(UserTrackingValueDto)
   @Post()
   async createUserTrackingValue(
@@ -106,8 +105,7 @@ export class UserTrackingValueController {
     return userTrackingValue;
   }
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  @UseGuards(AnyAuthGuard)
   @Serialize(UserTrackingValueDto)
   @Put('/:id')
   async updateUserTrackingValue(
@@ -174,8 +172,7 @@ export class UserTrackingValueController {
     return userTrackingValue;
   }
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  @UseGuards(AnyAuthGuard)
   @Serialize(UserTrackingValueDto)
   @Delete('/:id')
   async deleteUserTrackingValue(

@@ -15,16 +15,13 @@ import { MedicationSicknessDto } from './dtos/medication-sickness.dto';
 import { MedicationSickness } from './medication-sickness.entity';
 import { UpdateMedicationSicknessDto } from './dtos/update-medication-sickness.dto';
 import { CreateMedicationSicknessDto } from './dtos/create-medication-sickness.dto';
-import { JwtAccountGuard } from '../account/account-auth/account-guards/account.jwt.guard';
-import { RolesGuard } from '../account/account-auth/account-guards/roles.guard';
-import { Roles } from '../shared/roles.decorator';
+import { AnyAuthGuard } from '../guards/any.guard';
 
 @Controller('medication-sickness')
 export class MedicationSicknessController {
   constructor(private medicationSicknessService: MedicationSicknessService) {}
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  @UseGuards(AnyAuthGuard)
   @Serialize(MedicationSicknessDto)
   @Get('by-account')
   async getAllMedicationSicknessByAccount(
@@ -35,8 +32,7 @@ export class MedicationSicknessController {
     );
   }
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  @UseGuards(AnyAuthGuard)
   @Get('by-slug/:slug')
   async getMedicationSicknessBySlug(
     @Param('slug') slug: string,
@@ -44,8 +40,7 @@ export class MedicationSicknessController {
     return await this.medicationSicknessService.getBySlug(slug);
   }
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  @UseGuards(AnyAuthGuard)
   @Serialize(MedicationSicknessDto)
   @Post()
   async createMedicationSickness(
@@ -54,8 +49,7 @@ export class MedicationSicknessController {
     return await this.medicationSicknessService.create(body);
   }
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  @UseGuards(AnyAuthGuard)
   @Serialize(MedicationSicknessDto)
   @Put('/:id')
   async updateMedicationSickness(
@@ -68,8 +62,7 @@ export class MedicationSicknessController {
     );
   }
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  @UseGuards(AnyAuthGuard)
   @Serialize(MedicationSicknessDto)
   @Delete('/:id')
   async deleteMedicationSickness(

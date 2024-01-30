@@ -4,6 +4,7 @@ import {
   OneToMany,
   CreateDateColumn,
   ManyToOne,
+  Column,
 } from 'typeorm';
 import { MedicationSickness } from '../medication-sickness/medication-sickness.entity';
 import { Sickness } from '../sickness/sickness.entity';
@@ -13,6 +14,9 @@ import { Account } from '../account/account.entity';
 export class UserSickness {
   @PrimaryGeneratedColumn()
   userSicknessId: number;
+
+  @Column({ unique: true })
+  slug: string;
 
   @CreateDateColumn()
   createdAt: Date;

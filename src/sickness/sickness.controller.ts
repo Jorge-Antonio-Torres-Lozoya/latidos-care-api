@@ -20,8 +20,8 @@ import { Roles } from '../shared/roles.decorator';
 export class SicknessController {
   constructor(private sicknessService: SicknessService) {}
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  //@UseGuards(JwtAccountGuard, RolesGuard)
+  //@Roles('Admin', 'User')
   @Get()
   async getAllSickness(): Promise<Sickness[]> {
     return await this.sicknessService.getAll();
@@ -32,13 +32,6 @@ export class SicknessController {
   @Get('/:id')
   async getSicknessById(@Param('id') sicknessId: string): Promise<Sickness> {
     return await this.sicknessService.getById(parseInt(sicknessId));
-  }
-
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
-  @Get('by-slug/:slug')
-  async getSicknessBySlug(@Param('slug') slug: string): Promise<Sickness> {
-    return await this.sicknessService.getBySlug(slug);
   }
 
   @UseGuards(JwtAccountGuard, RolesGuard)

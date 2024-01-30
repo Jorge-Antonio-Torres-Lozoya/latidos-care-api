@@ -13,16 +13,13 @@ import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserSickness } from './user-sickness.entity';
 import { UserSicknessDto } from './dtos/user-sickness.dto';
 import { CreateUserSicknessDto } from './dtos/create-user-sickness.dto';
-import { RolesGuard } from '../account/account-auth/account-guards/roles.guard';
-import { JwtAccountGuard } from '../account/account-auth/account-guards/account.jwt.guard';
-import { Roles } from '../shared/roles.decorator';
+import { AnyAuthGuard } from '../guards/any.guard';
 
 @Controller('user-sickness')
 export class UserSicknessController {
   constructor(private userSicknessService: UserSicknessService) {}
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  @UseGuards(AnyAuthGuard)
   @Serialize(UserSicknessDto)
   @Get('by-user')
   async getAllUserSicknessByAccount(
@@ -31,8 +28,14 @@ export class UserSicknessController {
     return await this.userSicknessService.getAllByAccount(parseInt(accountId));
   }
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  @Get('by-slug/:slug')
+  async getUserSicknessBySlug(
+    @Param('slug') slug: string,
+  ): Promise<UserSickness> {
+    return await this.userSicknessService.getBySlug(slug);
+  }
+
+  @UseGuards(AnyAuthGuard)
   @Serialize(UserSicknessDto)
   @Post()
   async createUserSickness(
@@ -41,8 +44,7 @@ export class UserSicknessController {
     return await this.userSicknessService.create(body);
   }
 
-  @UseGuards(JwtAccountGuard, RolesGuard)
-  @Roles('Admin', 'User')
+  @UseGuards(AnyAuthGuard)
   @Serialize(UserSicknessDto)
   @Delete('/:id')
   async deleteUserSickness(
