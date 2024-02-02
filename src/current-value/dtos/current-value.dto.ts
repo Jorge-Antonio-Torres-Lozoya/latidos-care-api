@@ -49,7 +49,7 @@ export class CurrentValueDto {
 
   @Expose()
   @Transform(({ obj }) => obj.userTrackingValue.account.accountId)
-  userId: number;
+  accountId: number;
 
   @Expose()
   @Transform(({ obj }) => obj.userTrackingValue.account.firstName)
