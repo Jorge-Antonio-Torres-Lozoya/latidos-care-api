@@ -49,9 +49,9 @@ export class UserTrackingValueService {
     return await this.repo.find({
       where: { account: { accountId } },
       relations: {
+        account: true,
         currentValues: true,
         trackingValue: true,
-        account: true,
       },
     });
   }

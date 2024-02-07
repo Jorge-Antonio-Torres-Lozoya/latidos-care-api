@@ -28,6 +28,14 @@ export class UserAllergyController {
     return await this.userAllergyService.getAllByAccount(parseInt(accountId));
   }
 
+  @Serialize(UserAllergyDto)
+  @Get('/:id')
+  async getUserAllergyById(
+    @Param('id') userAllergyId: string,
+  ): Promise<UserAllergy> {
+    return await this.userAllergyService.getById(parseInt(userAllergyId));
+  }
+
   @UseGuards(AnyAuthGuard)
   @Serialize(UserAllergyDto)
   @Post()
