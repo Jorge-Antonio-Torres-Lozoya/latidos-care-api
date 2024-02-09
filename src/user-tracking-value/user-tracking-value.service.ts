@@ -122,6 +122,10 @@ export class UserTrackingValueService {
     if (updateDto.maxLimit) {
       userTrackingValue.maxLimit = updateDto.maxLimit;
     }
+
+    if (updateDto.currentValue) {
+      userTrackingValue.currentValue = updateDto.currentValue;
+    }
     await this.repo.save(userTrackingValue);
 
     const updatedUserTrackingValue = await this.getById(userTrackingValueId);
