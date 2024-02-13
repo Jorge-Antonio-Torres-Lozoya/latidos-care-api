@@ -49,9 +49,9 @@ export class UserTrackingValueService {
     return await this.repo.find({
       where: { account: { accountId } },
       relations: {
+        account: true,
         currentValues: true,
         trackingValue: true,
-        account: true,
       },
     });
   }
@@ -121,6 +121,10 @@ export class UserTrackingValueService {
 
     if (updateDto.maxLimit) {
       userTrackingValue.maxLimit = updateDto.maxLimit;
+    }
+
+    if (updateDto.currentValue) {
+      userTrackingValue.currentValue = updateDto.currentValue;
     }
     await this.repo.save(userTrackingValue);
 

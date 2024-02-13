@@ -28,6 +28,12 @@ export class UserSicknessController {
     return await this.userSicknessService.getAllByAccount(parseInt(accountId));
   }
 
+  @Serialize(UserSicknessDto)
+  @Get('/:id')
+  async getById(@Param('id') userSicknessId: string): Promise<UserSickness> {
+    return await this.userSicknessService.getById(parseInt(userSicknessId));
+  }
+
   @Get('by-slug/:slug')
   async getUserSicknessBySlug(
     @Param('slug') slug: string,

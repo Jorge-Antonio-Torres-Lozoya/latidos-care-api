@@ -31,8 +31,17 @@ export class UserTrackingValueController {
   async getUserTrackingValueByAccount(
     @Query('accountId') accountId: string,
   ): Promise<UserTrackingValue[]> {
-    return await this.userTrackingValueService.getAllByAccount(
-      parseInt(accountId),
+    const parsedAccountId = parseInt(accountId);
+    return await this.userTrackingValueService.getAllByAccount(parsedAccountId);
+  }
+
+  @Serialize(UserTrackingValueDto)
+  @Get('/:id')
+  async getById(
+    @Param('id') userTrackingValueId: string,
+  ): Promise<UserTrackingValue> {
+    return await this.userTrackingValueService.getById(
+      parseInt(userTrackingValueId),
     );
   }
 
