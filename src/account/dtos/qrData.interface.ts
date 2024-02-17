@@ -1,5 +1,6 @@
 export interface QrDataInterface {
   slug: string;
   token: string;
-  uniqueToken?: string;
+  uniqueToken: string;
+  consent: boolean;
 }
