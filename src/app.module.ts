@@ -19,6 +19,7 @@ import { UserAllergyModule } from './user-allergy/user-allergy.module';
 import { AccountModule } from './account/account.module';
 import { RoleModule } from './role/role.module';
 import { RoleAccountModule } from './role-account/role-account.module';
+import { DataAccessConsentModule } from './data-access-consent/data-access-consent.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { RoleAccountModule } from './role-account/role-account.module';
     AccountModule,
     RoleModule,
     RoleAccountModule,
+    DataAccessConsentModule,
   ],
   controllers: [AppController],
   providers: [

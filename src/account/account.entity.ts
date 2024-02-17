@@ -10,6 +10,7 @@ import { UserAllergy } from '../user-allergy/user-allergy.entity';
 import { UserTrackingValue } from '../user-tracking-value/user-tracking-value.entity';
 import { UserSickness } from '../user-sickness/user-sickness.entity';
 import { RoleAccount } from '../role-account/role-account.entity';
+import { DataAccessConsent } from '../data-access-consent/data-access-consent.entity';
 
 @Entity()
 export class Account {
@@ -113,4 +114,14 @@ export class Account {
     onDelete: 'SET NULL',
   })
   rolesAccount: RoleAccount[];
+
+  @OneToMany(
+    () => DataAccessConsent,
+    (dataAccessConsent) => dataAccessConsent.account,
+    {
+      cascade: true,
+      onDelete: 'SET NULL',
+    },
+  )
+  dataAccessConsents: DataAccessConsent[];
 }

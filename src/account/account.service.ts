@@ -148,6 +148,12 @@ export class AccountService {
   async loginAccount(loginString: string, password: string) {
     const [accountByEmail] = await this.getByEmail(loginString);
 
+    if (!accountByEmail) {
+      throw new BadRequestException(
+        'El correo electrónico o la contraseña son incorrectos',
+      );
+    }
+
     const [salt, storedHash] = accountByEmail.password.split('.');
     const hash = (await scrypt(password, salt, 32)) as Buffer;
 
