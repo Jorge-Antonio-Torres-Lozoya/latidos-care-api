@@ -22,7 +22,7 @@ import { QrDataInterface } from './dtos/qrData.interface';
     ],
   },
 })
-export class MessageGateway
+export class AccountGateway
   implements OnGatewayConnection, OnGatewayDisconnect
 {
   @WebSocketServer() server: Server;

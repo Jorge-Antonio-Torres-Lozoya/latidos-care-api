@@ -11,6 +11,7 @@ import { RoleAccountModule } from '../role-account/role-account.module';
 import { AccountJwtStrategy } from './account-auth/account.jwt.strategy';
 import { AccountLocalStrategy } from './account-auth/account.local.strategy';
 import { SendgridService } from '../../sendgrid.service';
+import { AccountGateway } from './account.gateway';
 
 @Module({
   imports: [
@@ -33,7 +34,8 @@ import { SendgridService } from '../../sendgrid.service';
     SendgridService,
     AccountJwtStrategy,
     AccountLocalStrategy,
+    AccountGateway,
   ],
-  exports: [AccountService],
+  exports: [AccountService, AccountGateway],
 })
 export class AccountModule {}
