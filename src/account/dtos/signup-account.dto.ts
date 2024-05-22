@@ -20,7 +20,7 @@ export class SignUpAccountDto {
   @IsNotEmpty()
   password: string;
 
-  @IsString()
-  @IsNotEmpty()
-  confirmPassword: string;
+  // @IsString()
+  // @IsNotEmpty()
+  // confirmPassword: string;
 }

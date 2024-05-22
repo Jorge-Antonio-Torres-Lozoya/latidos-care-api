@@ -104,11 +104,11 @@ export class AccountService {
       );
     }
 
-    if (body.password !== body.confirmPassword) {
-      throw new BadRequestException(
-        'Error, las contraseñas que ingresó no son las mismas',
-      );
-    }
+    // if (body.password !== body.confirmPassword) {
+    //   throw new BadRequestException(
+    //     'Error, las contraseñas que ingresó no son las mismas',
+    //   );
+    // }
 
     const hash = await this.hashPassword(body.password);
     const account = this.repo.create({
